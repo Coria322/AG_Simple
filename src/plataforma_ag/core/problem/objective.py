@@ -29,7 +29,8 @@ IndexArray = NDArray[np.intp]
 class Evaluator(Protocol):
     """Protocolo de cualquier evaluador de puntos fenotípicos en R^N."""
 
-    dimensions: int
+    @property
+    def dimensions(self) -> int: ...
 
     def evaluate(self, population: ArrayLike) -> FloatArray: ...
 
