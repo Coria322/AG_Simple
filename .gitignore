@@ -1,0 +1,32 @@
+# Entorno
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Herramientas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.import_linter_cache/
+.coverage
+htmlcov/
+
+# IDE / SO
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Salidas generadas por la app
+/out/
+*.pdf
+
+# Documentación del agente
+plataforma_ag_agentic_docs/
+

@@ -1,0 +1,107 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plataforma-ag"
+version = "0.1.0"
+description = "Plataforma de Simulación y Optimización con Algoritmos Genéticos Multidimensionales"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ttkbootstrap>=1.10",
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+    "reportlab>=4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "import-linter>=2.0",
+]
+
+[project.scripts]
+plataforma-ag = "plataforma_ag.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# --------------------------------------------------------------------------
+# Pruebas
+# --------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -m 'not benchmark'"
+markers = [
+    "ui_smoke: pruebas de GUI; se omiten si no hay display",
+    "benchmark: pruebas de rendimiento (no corren por defecto)",
+    "architecture: verificación del contrato de capas",
+]
+
+# --------------------------------------------------------------------------
+# Calidad
+# --------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "S", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]  # se permiten caracteres en español
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S603", "S607"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+packages = ["plataforma_ag"]
+strict = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["ttkbootstrap.*", "matplotlib.*", "reportlab.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["plataforma_ag.ui.*"]
+disallow_untyped_calls = false
+
+# --------------------------------------------------------------------------
+# Contrato de capas (RNF-04, SUP-003)
+#   app → ui → controllers → (core | services) → domain
+# --------------------------------------------------------------------------
+[tool.importlinter]
+root_package = "plataforma_ag"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Capas MVC: app > ui > controllers > core|services > domain"
+type = "layers"
+containers = ["plataforma_ag"]
+layers = [
+    "app",
+    "ui",
+    "controllers",
+    "core | services",
+    "domain",
+]
+
+[[tool.importlinter.contracts]]
+name = "Núcleo, dominio y servicios no conocen la GUI"
+type = "forbidden"
+source_modules = [
+    "plataforma_ag.domain",
+    "plataforma_ag.core",
+    "plataforma_ag.services",
+]
+forbidden_modules = [
+    "tkinter",
+    "ttkbootstrap",
+    "plataforma_ag.ui",
+    "plataforma_ag.controllers",
+]
