@@ -77,6 +77,9 @@ class RunHistoryStore:
         with self._lock:
             return len(self._records)
 
+    def __len__(self) -> int:
+        return self.total_generations
+
     @property
     def available_generations(self) -> list[int]:
         """Lista ordenada de números de generación disponibles."""
@@ -151,6 +154,24 @@ class RunHistoryStore:
 
         return page_items, total_count, total_pages
 
+    def get_population_page(
+        self,
+        generation: int,
+        page: int = 1,
+        page_size: int = 25,
+        sort_by: str = "id",
+        ascending: bool = True,
+    ) -> tuple[tuple[Individual, ...], int]:
+        """Devuelve los individuos de la página y el total en una tupla."""
+        items, total, _ = self.get_individuals_page(
+            generation=generation,
+            page=page,
+            page_size=page_size,
+            sort_by=sort_by,
+            sort_descending=not ascending,
+        )
+        return tuple(items), total
+
     def get_convergence_series(self) -> ConvergenceSeries:
         """Calcula las series cartesianas de convergencia omitiendo o tratando no finitos.
 
@@ -195,3 +216,5 @@ class RunHistoryStore:
                 mean_fitness=tuple(mean_list),
                 cumulative_elite=tuple(elite_list),
             )
+
+    get_series = get_convergence_series

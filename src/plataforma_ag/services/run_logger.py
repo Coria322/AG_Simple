@@ -74,6 +74,11 @@ class RunLogger:
         with self._lock:
             return list(self._entries)
 
+    def add_event(self, event: LogRecorded) -> None:
+        """Agrega un evento LogRecorded directamente al búfer."""
+        with self._lock:
+            self._entries.append(event)
+
     def clear(self) -> None:
         """Limpia el búfer de bitácora."""
         with self._lock:

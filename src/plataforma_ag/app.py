@@ -59,6 +59,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _check_imports()
 
     try:
+        from plataforma_ag.controllers.params_controller import ParamsController
+        from plataforma_ag.controllers.persistence_controller import PersistenceController
+        from plataforma_ag.controllers.problem_controller import ProblemController
+        from plataforma_ag.controllers.run_controller import RunController
+        from plataforma_ag.controllers.telemetry_controller import TelemetryController
+        from plataforma_ag.ui.theme.theme_manager import ThemeManager
         from plataforma_ag.ui.views.main_window import MainWindow
     except ModuleNotFoundError as exc:
         if exc.name and exc.name.split(".")[0] == "ttkbootstrap":
@@ -66,6 +72,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
         raise
 
-    window = MainWindow()
+    problem_ctrl = ProblemController()
+    params_ctrl = ParamsController()
+    telemetry_ctrl = TelemetryController()
+    run_ctrl = RunController(telemetry_ctrl)
+    persistence_ctrl = PersistenceController()
+    theme_mgr = ThemeManager()
+
+    window = MainWindow(
+        problem_controller=problem_ctrl,
+        params_controller=params_ctrl,
+        run_controller=run_ctrl,
+        telemetry_controller=telemetry_ctrl,
+        persistence_controller=persistence_ctrl,
+        theme_manager=theme_mgr,
+    )
     window.run()
     return 0

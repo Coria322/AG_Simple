@@ -41,9 +41,7 @@ from plataforma_ag.domain.errors import PersistenceError, ValidationError
 from plataforma_ag.services.history import RunHistoryStore
 
 
-def _generate_convergence_chart_image(
-    history: RunHistoryStore, dpi: int = 300
-) -> io.BytesIO:
+def _generate_convergence_chart_image(history: RunHistoryStore, dpi: int = 300) -> io.BytesIO:
     """Genera la figura de convergencia y la devuelve como BytesIO en PNG a 300 DPI."""
     series = history.get_convergence_series()
     gens = np.asarray(series.generations)
@@ -342,9 +340,7 @@ class PdfReportService:
                     p_str += "]"
                     fit_val = f"{ind.fitness:.6g}" if ind.fitness is not None else "nan"
                     elite_val = "★ Sí" if ind.is_elite else "No"
-                    final_table_data.append(
-                        [str(ind.individual_id), p_str, fit_val, elite_val]
-                    )
+                    final_table_data.append([str(ind.individual_id), p_str, fit_val, elite_val])
 
                 t_final = Table(
                     final_table_data, colWidths=[0.8 * inch, 4.4 * inch, 1.4 * inch, 0.8 * inch]
@@ -375,3 +371,19 @@ class PdfReportService:
             raise PersistenceError(
                 f"No se pudo escribir el reporte PDF en '{path}': {err}"
             ) from err
+
+
+def generate_pdf_report(
+    config: ExperimentConfig,
+    history: RunHistoryStore,
+    output_path: Path | str,
+    chart_png_bytes: bytes | None = None,
+    max_final_sample: int = 15,
+) -> Path:
+    """Función de alto nivel para generar el reporte técnico en PDF."""
+    return PdfReportService.generate_report(
+        config=config,
+        history=history,
+        output_path=output_path,
+        max_final_sample=max_final_sample,
+    )
