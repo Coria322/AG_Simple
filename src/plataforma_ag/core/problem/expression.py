@@ -257,8 +257,7 @@ class _Compiler:
         op = _BINARY_OPS.get(type(node.op))
         if op is None:
             raise self._error(
-                f"Operador no permitido: {type(node.op).__name__}. "
-                "Usa + - * / ^",
+                f"Operador no permitido: {type(node.op).__name__}. Usa + - * / ^",
                 node,
             )
         left, right = self.build(node.left), self.build(node.right)

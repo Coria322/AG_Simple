@@ -20,11 +20,13 @@ from plataforma_ag.domain.enums import ChromosomeType, MutationMethod, OperatorK
 
 BINARY_AND_GRAY = frozenset({ChromosomeType.BINARY, ChromosomeType.GRAY})
 PERMUTATION_ONLY = frozenset({ChromosomeType.PERMUTATION})
-ALL_EXCEPT_PERM = frozenset({
-    ChromosomeType.BINARY,
-    ChromosomeType.GRAY,
-    ChromosomeType.REAL,
-})
+ALL_EXCEPT_PERM = frozenset(
+    {
+        ChromosomeType.BINARY,
+        ChromosomeType.GRAY,
+        ChromosomeType.REAL,
+    }
+)
 
 
 @register_operator
@@ -132,7 +134,7 @@ class NonUniformMutation:
 
                 # Dirección aleatoria: sumar o restar
                 r = rng.random()
-                delta_factor = 1.0 - (r ** decay)
+                delta_factor = 1.0 - (r**decay)
 
                 if rng.random() < 0.5:
                     y = high - x_val

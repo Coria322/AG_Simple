@@ -224,8 +224,20 @@ def test_tan_pi_medios_es_grande_y_finito() -> None:
     assert np.isfinite(value) and abs(value) > 1e15
 
 
-@pytest.mark.parametrize("text", ["sind(90)", "cosd(x1)", "tand(45)", "sin(deg(x1))",
-                                  "degrees(x1)", "radians(90)", "sin(90°)", "sin(90º)", "deg"])
+@pytest.mark.parametrize(
+    "text",
+    [
+        "sind(90)",
+        "cosd(x1)",
+        "tand(45)",
+        "sin(deg(x1))",
+        "degrees(x1)",
+        "radians(90)",
+        "sin(90°)",
+        "sin(90º)",
+        "deg",
+    ],
+)
 def test_construcciones_en_grados_se_rechazan(text: str) -> None:
     with pytest.raises(ExpressionError, match="radianes"):
         compile_expression(text, dimensions=1)

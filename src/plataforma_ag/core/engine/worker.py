@@ -85,17 +85,13 @@ class WorkerThread(threading.Thread):
                 # Publicar progreso
                 pct = min(100.0, (self.current_generation / max_gen) * 100.0)
                 self.event_queue.put(
-                    ProgressChanged(
-                        current=self.current_generation, maximum=max_gen, percent=pct
-                    )
+                    ProgressChanged(current=self.current_generation, maximum=max_gen, percent=pct)
                 )
 
                 # Si se alcanzaron criterios de parada
                 if stop_reasons is not None:
                     self.event_queue.put(
-                        RunCompleted(
-                            generation=self.current_generation, stop_reasons=stop_reasons
-                        )
+                        RunCompleted(generation=self.current_generation, stop_reasons=stop_reasons)
                     )
                     return
 
@@ -111,6 +107,4 @@ class WorkerThread(threading.Thread):
 
         except Exception as exc:
             # Fallo no controlado: publicar RunFailed para que la app no muera (RNF-01)
-            self.event_queue.put(
-                RunFailed(message=str(exc), error_type=type(exc).__name__)
-            )
+            self.event_queue.put(RunFailed(message=str(exc), error_type=type(exc).__name__))

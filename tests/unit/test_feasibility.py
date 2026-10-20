@@ -81,11 +81,13 @@ def test_politica_de_factibilidad_saturacion() -> None:
         VariableBound(variable="x2", min=0.0, max=10.0),
     )
     # Valores desbordados
-    unbounded = np.array([
-        [-10.0, 15.0],
-        [20.0, -5.0],
-        [0.0, 5.0],
-    ])
+    unbounded = np.array(
+        [
+            [-10.0, 15.0],
+            [20.0, -5.0],
+            [0.0, 5.0],
+        ]
+    )
     clipped = apply_feasibility_policy(unbounded, bounds, RedundantSpaceStrategy.SATURATION)
     np.testing.assert_array_equal(
         clipped,

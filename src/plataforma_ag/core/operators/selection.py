@@ -23,11 +23,13 @@ from plataforma_ag.core.operators.base import (
 from plataforma_ag.core.operators.registry import register_operator
 from plataforma_ag.domain.enums import ChromosomeType, OperatorKind, SelectionMethod
 
-NO_PERMUTATION = frozenset({
-    ChromosomeType.BINARY,
-    ChromosomeType.GRAY,
-    ChromosomeType.REAL,
-})
+NO_PERMUTATION = frozenset(
+    {
+        ChromosomeType.BINARY,
+        ChromosomeType.GRAY,
+        ChromosomeType.REAL,
+    }
+)
 
 
 def _normalize_probabilities(probs: FloatArray) -> FloatArray:
@@ -175,9 +177,7 @@ class TournamentSelection:
     name = SelectionMethod.TOURNAMENT.value
     kind = OperatorKind.SELECTION
     compatible_with = ALL_CHROMOSOME_TYPES
-    params_schema = (
-        ParamSpec("k", int, 3, label="Tamaño de torneo (k)", minimum=2),
-    )
+    params_schema = (ParamSpec("k", int, 3, label="Tamaño de torneo (k)", minimum=2),)
 
     def select(
         self, fitness: FloatArray, n: int, rng: np.random.Generator, **params: Any

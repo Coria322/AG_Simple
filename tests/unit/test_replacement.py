@@ -18,22 +18,26 @@ from plataforma_ag.domain.errors import ValidationError
 def test_elitismo_e2_conserva_dos_mejores_identicos() -> None:
     # RF-16 Escenario 1: Dado E=2, cuando se observa la generación t+1,
     # entonces los 2 mejores de t permanecen idénticos (prueba obligatoria ERS §5).
-    pop_genotypes = np.array([
-        [1, 1],   # aptitud = 100.0 (mejor 1)
-        [2, 2],   # aptitud = 90.0  (mejor 2)
-        [3, 3],   # aptitud = 50.0
-        [4, 4],   # aptitud = 10.0
-    ])
+    pop_genotypes = np.array(
+        [
+            [1, 1],  # aptitud = 100.0 (mejor 1)
+            [2, 2],  # aptitud = 90.0  (mejor 2)
+            [3, 3],  # aptitud = 50.0
+            [4, 4],  # aptitud = 10.0
+        ]
+    )
     pop_aptitude = np.array([100.0, 90.0, 50.0, 10.0])
     pop = Population(genotypes=pop_genotypes, aptitude=pop_aptitude)
 
     # Descendencia nueva
-    off_genotypes = np.array([
-        [9, 9],
-        [8, 8],
-        [7, 7],
-        [6, 6],
-    ])
+    off_genotypes = np.array(
+        [
+            [9, 9],
+            [8, 8],
+            [7, 7],
+            [6, 6],
+        ]
+    )
     off_aptitude = np.array([80.0, 70.0, 60.0, 40.0])
     offspring = Population(genotypes=off_genotypes, aptitude=off_aptitude)
 
@@ -53,19 +57,23 @@ def test_elitismo_e2_conserva_dos_mejores_identicos() -> None:
 
 def test_estado_estable_reemplaza_exactamente_n_peores() -> None:
     # Estado estable con n=2: reemplaza a los 2 peores de pop
-    pop_genotypes = np.array([
-        [1, 1],   # apt 100
-        [2, 2],   # apt 80
-        [3, 3],   # apt 30 (peor 2)
-        [4, 4],   # apt 10 (peor 1)
-    ])
+    pop_genotypes = np.array(
+        [
+            [1, 1],  # apt 100
+            [2, 2],  # apt 80
+            [3, 3],  # apt 30 (peor 2)
+            [4, 4],  # apt 10 (peor 1)
+        ]
+    )
     pop_aptitude = np.array([100.0, 80.0, 30.0, 10.0])
     pop = Population(genotypes=pop_genotypes, aptitude=pop_aptitude)
 
-    off_genotypes = np.array([
-        [9, 9],   # apt 95 (mejor descendiente)
-        [8, 8],   # apt 85 (segundo mejor)
-    ])
+    off_genotypes = np.array(
+        [
+            [9, 9],  # apt 95 (mejor descendiente)
+            [8, 8],  # apt 85 (segundo mejor)
+        ]
+    )
     off_aptitude = np.array([95.0, 85.0])
     offspring = Population(genotypes=off_genotypes, aptitude=off_aptitude)
 
@@ -95,10 +103,12 @@ def test_estado_estable_n_invalido_lanza_validation_error() -> None:
 
 def test_crowding_solo_reemplaza_si_es_mejor() -> None:
     # AMB-012, SUP-013: el descendiente solo reemplaza al más cercano si tiene mejor aptitud
-    pop_genotypes = np.array([
-        [0.0, 0.0],  # apt 50
-        [10.0, 10.0],  # apt 50
-    ])
+    pop_genotypes = np.array(
+        [
+            [0.0, 0.0],  # apt 50
+            [10.0, 10.0],  # apt 50
+        ]
+    )
     pop_aptitude = np.array([50.0, 50.0])
     pop = Population(genotypes=pop_genotypes, aptitude=pop_aptitude)
 

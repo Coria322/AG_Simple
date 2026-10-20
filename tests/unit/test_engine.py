@@ -126,7 +126,7 @@ def test_ga_engine_cromosomas_reales_con_blx_alpha() -> None:
 
 def test_ga_engine_permutaciones_con_pmx_e_inversion() -> None:
     # Ejecución con cromosomas de permutación
-    bounds = tuple(VariableBound(variable=f"x{i+1}", min=0.0, max=10.0) for i in range(5))
+    bounds = tuple(VariableBound(variable=f"x{i + 1}", min=0.0, max=10.0) for i in range(5))
     config = ExperimentConfig(
         problem=ProblemDefinition(
             expression="x1 + x2 + x3 + x4 + x5",

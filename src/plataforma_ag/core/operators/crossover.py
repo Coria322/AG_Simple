@@ -129,9 +129,7 @@ class BLXAlphaCrossover:
     name = CrossoverMethod.BLX_ALPHA.value
     kind = OperatorKind.CROSSOVER
     compatible_with = REAL_ONLY
-    params_schema = (
-        ParamSpec("alpha", float, 0.5, label="Parámetro alpha", minimum=0.0),
-    )
+    params_schema = (ParamSpec("alpha", float, 0.5, label="Parámetro alpha", minimum=0.0),)
 
     def cross(
         self, p1: Genotype, p2: Genotype, rng: np.random.Generator, **params: Any

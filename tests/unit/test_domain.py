@@ -111,8 +111,7 @@ def test_run_history_por_defecto() -> None:
 def test_errores_con_contexto() -> None:
     assert str(ExpressionError("mal", position=4)) == "mal (posición 4)"
     assert (
-        str(ValidationError("fuera de rango", field="p_crossover"))
-        == "p_crossover: fuera de rango"
+        str(ValidationError("fuera de rango", field="p_crossover")) == "p_crossover: fuera de rango"
     )
     err = InvalidStateTransition(enums.RunState.IDLE, "pausar")
     assert "IDLE" in str(err) and err.requested == "pausar"

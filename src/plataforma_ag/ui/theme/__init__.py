@@ -1,2 +1,1 @@
-﻿"""Gestor de temas ttkbootstrap y estilo de gráficas."""
-
+"""Gestor de temas ttkbootstrap y estilo de gráficas."""

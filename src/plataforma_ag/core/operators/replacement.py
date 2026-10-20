@@ -49,15 +49,21 @@ def _apply_elitism(
     # Ordenar la descendencia de mejor a peor para tomar los (pop_size - e) mejores
     off_best_idx = np.argsort(-offspring.aptitude)[: pop_size - e]
 
-    new_genotypes = np.concatenate([
-        pop.genotypes[pop_best_idx],
-        offspring.genotypes[off_best_idx],
-    ], axis=0)
+    new_genotypes = np.concatenate(
+        [
+            pop.genotypes[pop_best_idx],
+            offspring.genotypes[off_best_idx],
+        ],
+        axis=0,
+    )
 
-    new_aptitude = np.concatenate([
-        pop.aptitude[pop_best_idx],
-        offspring.aptitude[off_best_idx],
-    ], axis=0)
+    new_aptitude = np.concatenate(
+        [
+            pop.aptitude[pop_best_idx],
+            offspring.aptitude[off_best_idx],
+        ],
+        axis=0,
+    )
 
     return Population(genotypes=new_genotypes, aptitude=new_aptitude)
 
@@ -79,9 +85,7 @@ class GenerationalReplacement:
         ),
     )
 
-    def apply(
-        self, pop: Population, offspring: Population, ctx: ReplacementContext
-    ) -> Population:
+    def apply(self, pop: Population, offspring: Population, ctx: ReplacementContext) -> Population:
         e = int(ctx.params.get("elitism_count", 0))
         return _apply_elitism(pop, offspring, e)
 
@@ -103,9 +107,7 @@ class ElitismReplacement:
         ),
     )
 
-    def apply(
-        self, pop: Population, offspring: Population, ctx: ReplacementContext
-    ) -> Population:
+    def apply(self, pop: Population, offspring: Population, ctx: ReplacementContext) -> Population:
         e = int(ctx.params.get("elitism_count", 2))
         if e < 1:
             raise ValidationError("Elitismo requiere E ≥ 1.", field="elitism_count")
@@ -129,9 +131,7 @@ class SteadyStateReplacement:
         ),
     )
 
-    def apply(
-        self, pop: Population, offspring: Population, ctx: ReplacementContext
-    ) -> Population:
+    def apply(self, pop: Population, offspring: Population, ctx: ReplacementContext) -> Population:
         pop_size = len(pop)
         n = int(ctx.params.get("n_replace", 2))
         if n >= pop_size:
@@ -173,9 +173,7 @@ class CrowdingReplacement:
         ),
     )
 
-    def apply(
-        self, pop: Population, offspring: Population, ctx: ReplacementContext
-    ) -> Population:
+    def apply(self, pop: Population, offspring: Population, ctx: ReplacementContext) -> Population:
         pop_size = len(pop)
         cf = int(ctx.params.get("crowding_factor", 3))
         cf = min(max(cf, 1), pop_size)

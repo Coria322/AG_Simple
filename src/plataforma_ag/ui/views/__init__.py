@@ -1,2 +1,1 @@
-﻿"""Vistas (paneles) independientes ensambladas en main_window."""
-
+"""Vistas (paneles) independientes ensambladas en main_window."""

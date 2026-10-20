@@ -1,2 +1,1 @@
-﻿"""Widgets reutilizables sin reglas de negocio."""
-
+"""Widgets reutilizables sin reglas de negocio."""

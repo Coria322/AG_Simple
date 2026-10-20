@@ -157,8 +157,9 @@ def test_protocols_runtime_checkable() -> None:
 def test_estrategia_se_ejecuta_con_parametros_resueltos() -> None:
     op = FakeArithmetic()
     params = resolve_params(op.params_schema, {"a": 0.3})
-    c1, c2 = op.cross(np.array([0.0, 0.0]), np.array([10.0, 10.0]), np.random.default_rng(0),
-                      **params)
+    c1, c2 = op.cross(
+        np.array([0.0, 0.0]), np.array([10.0, 10.0]), np.random.default_rng(0), **params
+    )
     np.testing.assert_allclose(c1, [7.0, 7.0])
     np.testing.assert_allclose(c2, [3.0, 3.0])
 
@@ -176,8 +177,13 @@ def test_resolve_params_usa_defaults() -> None:
         (ParamSpec("k", int, 3, minimum=2), 1, "≥ 2"),
         (ParamSpec("k", int, 3, minimum=2), 2.5, "entero"),
         (ParamSpec("k", int, 3, minimum=2), True, "numérico"),
-        (ParamSpec("q", float, 0.5, minimum=0, maximum=1, min_inclusive=False,
-                   max_inclusive=False), 1.0, "< 1"),
+        (
+            ParamSpec(
+                "q", float, 0.5, minimum=0, maximum=1, min_inclusive=False, max_inclusive=False
+            ),
+            1.0,
+            "< 1",
+        ),
         (ParamSpec("q", float, 0.5, minimum=0, maximum=1, min_inclusive=False), 0.0, "> 0"),
         (ParamSpec("a", float, 0.5), "abc", "formato"),
         (ParamSpec("a", float, 0.5), float("nan"), "finito"),

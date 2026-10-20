@@ -38,9 +38,7 @@ class Evaluator(Protocol):
 # --- Estrategias de transformación de aptitud (AMB-001) ----------------------
 
 
-def transform_negate_plus_c(
-    raw_fitness: FloatArray, sense: ObjectiveSense
-) -> FloatArray:
+def transform_negate_plus_c(raw_fitness: FloatArray, sense: ObjectiveSense) -> FloatArray:
     """Transformación -f + C (AMB-001).
 
     Para MINIMIZE: aptitud = -f + max(f).
@@ -75,9 +73,7 @@ def transform_negate_plus_c(
     return aptitude
 
 
-def transform_inverse_shift(
-    raw_fitness: FloatArray, sense: ObjectiveSense
-) -> FloatArray:
+def transform_inverse_shift(raw_fitness: FloatArray, sense: ObjectiveSense) -> FloatArray:
     """Transformación 1 / (1 + f - f_min) (RF-04 alternativo).
 
     Para MINIMIZE: individuos con menor f reciben mayor aptitud (máximo 1.0).
@@ -102,9 +98,7 @@ def transform_inverse_shift(
     return aptitude
 
 
-_TRANSFORM_REGISTRY: dict[
-    FitnessTransform, Callable[[FloatArray, ObjectiveSense], FloatArray]
-] = {
+_TRANSFORM_REGISTRY: dict[FitnessTransform, Callable[[FloatArray, ObjectiveSense], FloatArray]] = {
     FitnessTransform.NEGATE_PLUS_C: transform_negate_plus_c,
     FitnessTransform.INVERSE_SHIFT: transform_inverse_shift,
 }
@@ -134,9 +128,7 @@ class ObjectiveFunction:
         raw = self.evaluator.evaluate(phenotypes)
         raw_arr = np.asarray(raw, dtype=DTYPE)
 
-        transform_fn = _TRANSFORM_REGISTRY.get(
-            self.transform, transform_negate_plus_c
-        )
+        transform_fn = _TRANSFORM_REGISTRY.get(self.transform, transform_negate_plus_c)
         aptitude = transform_fn(raw_arr, self.sense)
 
         return raw_arr, aptitude

@@ -47,15 +47,19 @@ def test_permutaciones_deshabilita_ranking_no_lineal() -> None:
     )
     # Permutaciones solo permiten PMX, OX, CX y Swap, Inversion
     rule = COMPATIBILITY_MATRIX[ChromosomeType.PERMUTATION]
-    assert rule.allowed_crossover == frozenset({
-        CrossoverMethod.PMX,
-        CrossoverMethod.OX,
-        CrossoverMethod.CX,
-    })
-    assert rule.allowed_mutation == frozenset({
-        MutationMethod.SWAP,
-        MutationMethod.INVERSION,
-    })
+    assert rule.allowed_crossover == frozenset(
+        {
+            CrossoverMethod.PMX,
+            CrossoverMethod.OX,
+            CrossoverMethod.CX,
+        }
+    )
+    assert rule.allowed_mutation == frozenset(
+        {
+            MutationMethod.SWAP,
+            MutationMethod.INVERSION,
+        }
+    )
 
 
 def test_validar_config_incompatible_lanza_error() -> None:

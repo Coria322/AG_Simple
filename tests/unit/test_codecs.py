@@ -24,10 +24,13 @@ def test_codec_binario_extremos_y_valores_medios() -> None:
     assert codec.total_bits == 8
 
     # Individuo todo ceros y todo unos
-    genotypes = np.array([
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1],
-    ], dtype=np.uint8)
+    genotypes = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+        ],
+        dtype=np.uint8,
+    )
 
     phenotypes = codec.decode(genotypes)
     np.testing.assert_allclose(phenotypes[0], [0.0, -5.0])
@@ -72,7 +75,7 @@ def test_gray_todos_los_valores_coinciden_con_binario() -> None:
 
 def test_codec_permutaciones_sin_repetidos() -> None:
     # RF-11 Escenario 2: permutación de tamaño 8 contiene 0..7 sin repetidos
-    bounds = tuple(VariableBound(variable=f"x{i+1}", min=0.0, max=10.0) for i in range(8))
+    bounds = tuple(VariableBound(variable=f"x{i + 1}", min=0.0, max=10.0) for i in range(8))
     codec = PermutationCodec(bounds)
     rng = np.random.default_rng(42)
 

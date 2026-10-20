@@ -180,9 +180,7 @@ class GAEngine:
             self.current_generation = t
 
             # 1. Selección de Np padres
-            parent_indices = self.selection.select(
-                aptitude, n=pop_size, rng=self.rng, **sel_params
-            )
+            parent_indices = self.selection.select(aptitude, n=pop_size, rng=self.rng, **sel_params)
             parents = genotypes[parent_indices]
 
             # 2. Cruce probabilístico por parejas
@@ -254,26 +252,21 @@ class GAEngine:
         best_f = float(raw_fitness[best_idx])
 
         # Actualizar élite histórico acumulado
-        if (
-            not np.isfinite(self.cumulative_elite_fitness)
-            or self.objective.is_better(best_f, self.cumulative_elite_fitness)
+        if not np.isfinite(self.cumulative_elite_fitness) or self.objective.is_better(
+            best_f, self.cumulative_elite_fitness
         ):
             self.cumulative_elite_fitness = best_f
 
         # Media de valores finitos
         finite_mask = np.isfinite(raw_fitness)
-        mean_f = (
-            float(np.mean(raw_fitness[finite_mask]))
-            if np.any(finite_mask)
-            else float("nan")
-        )
+        mean_f = float(np.mean(raw_fitness[finite_mask])) if np.any(finite_mask) else float("nan")
 
         self.best_fitness_history.append(best_f)
 
         # Crear lista de objetos Individual
         individuals: list[Individual] = []
         for i in range(len(genotypes)):
-            is_elite = (i == best_idx)
+            is_elite = i == best_idx
             # Tuple de genes y fenotipo
             geno_tuple = tuple(genotypes[i].tolist())
             pheno_tuple = tuple(phenotypes[i].tolist())

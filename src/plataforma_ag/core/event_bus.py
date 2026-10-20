@@ -48,9 +48,7 @@ class EventBus:
         Devuelve cuántos manejadores fueron invocados.
         """
         with self._lock:
-            targets = [
-                h for cls in type(event).__mro__ for h in tuple(self._handlers.get(cls, ()))
-            ]
+            targets = [h for cls in type(event).__mro__ for h in tuple(self._handlers.get(cls, ()))]
         errors: list[Exception] = []
         for handler in targets:
             try:
@@ -61,8 +59,9 @@ class EventBus:
                 else:
                     errors.append(exc)
         if errors:
-            raise ExceptionGroup(f"Fallaron {len(errors)} manejadores de {type(event).__name__}",
-                                 errors)
+            raise ExceptionGroup(
+                f"Fallaron {len(errors)} manejadores de {type(event).__name__}", errors
+            )
         return len(targets)
 
     def clear(self) -> None:

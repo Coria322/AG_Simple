@@ -1,2 +1,1 @@
-﻿"""Casos de uso: puente entre vistas y núcleo/servicios."""
-
+"""Casos de uso: puente entre vistas y núcleo/servicios."""

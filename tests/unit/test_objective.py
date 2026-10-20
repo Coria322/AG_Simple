@@ -19,11 +19,13 @@ def test_esfera_2d_minimizar_mejor_individuo_menor_fx() -> None:
         transform=FitnessTransform.NEGATE_PLUS_C,
     )
 
-    pop = np.array([
-        [0.0, 0.0],   # f = 0.0 (mejor)
-        [1.0, 1.0],   # f = 2.0
-        [3.0, 4.0],   # f = 25.0 (peor)
-    ])
+    pop = np.array(
+        [
+            [0.0, 0.0],  # f = 0.0 (mejor)
+            [1.0, 1.0],  # f = 2.0
+            [3.0, 4.0],  # f = 25.0 (peor)
+        ]
+    )
     raw, aptitude = obj.evaluate(pop)
 
     assert raw[0] == 0.0
@@ -52,11 +54,13 @@ def test_esfera_2d_maximizar_mejor_individuo_mayor_fx() -> None:
         transform=FitnessTransform.NEGATE_PLUS_C,
     )
 
-    pop = np.array([
-        [0.0, 0.0],   # f = 0.0 (peor)
-        [1.0, 1.0],   # f = 2.0
-        [3.0, 4.0],   # f = 25.0 (mejor)
-    ])
+    pop = np.array(
+        [
+            [0.0, 0.0],  # f = 0.0 (peor)
+            [1.0, 1.0],  # f = 2.0
+            [3.0, 4.0],  # f = 25.0 (mejor)
+        ]
+    )
     raw, aptitude = obj.evaluate(pop)
 
     assert aptitude[2] > aptitude[1] > aptitude[0]
